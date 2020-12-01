@@ -216,6 +216,7 @@ def linear_training(model,classifier, train_loader, train_optimizer, criterion ,
         with torch.no_grad():
             feature = model(x)
             feature = F.normalize(feature, dim=1)
+        train_optimizer.zero_grad()
 
 
         output = classifier(feature)
