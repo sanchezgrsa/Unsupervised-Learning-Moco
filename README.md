@@ -4,7 +4,7 @@ This is an Unofficial implementation of [MoCo](https://arxiv.org/abs/1911.05722)
 
 The encoder is calculated following the MoCo implementation. On each iteration it is fed to a linear neural network for classification purposes. 
 
-###### HYPERPARAMETERS
+## HYPERPARAMETERS
 
 '--lr', '--learning-rate','initial learning rate',
 '--epochs', 'number of total epochs to run'
@@ -14,7 +14,7 @@ The encoder is calculated following the MoCo implementation. On each iteration i
 --batch-size', 'mini-batch size'
 --wd', 'weight decay'
 
-## moco specific configs:
+###### moco specific configs:
 --moco-dim', 'feature dimension'
 --moco-k', 'queue size; number of negative keys
 --moco-m', 'moco momentum of updating key encoder'
@@ -24,10 +24,10 @@ The encoder is calculated following the MoCo implementation. On each iteration i
 
 --symmetric', 'use a symmetric loss function that backprops to both crops'
 
-## knn monitor
+###### knn monitor
 --knn-k', 'k in kNN monitor'
 --knn-t', 'softmax temperature in kNN monitor; could be different with moco-t'
 
-## utils
+###### utils
 --resume', 'path to latest checkpoint (default: none)'
 --results-dir','path to cache (default: none)'
