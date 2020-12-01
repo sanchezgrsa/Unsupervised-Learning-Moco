@@ -20,7 +20,7 @@ class LinNet(nn.Module):
         
 
 
-    def forward(self, x, target):
+    def forward(self, x):
         # define forward pass
 
         x = F.relu(self.fc1(x))
