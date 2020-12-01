@@ -14,7 +14,7 @@ The encoder is calculated following the MoCo implementation. On each iteration i
 --batch-size', 'mini-batch size'
 --wd', 'weight decay'
 
-# moco specific configs:
+## moco specific configs:
 --moco-dim', 'feature dimension'
 --moco-k', 'queue size; number of negative keys
 --moco-m', 'moco momentum of updating key encoder'
