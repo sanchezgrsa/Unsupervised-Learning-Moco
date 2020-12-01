@@ -122,10 +122,6 @@ parser.add_argument('--bn-splits', default=8, type=int, help='simulate multi-gpu
 
 parser.add_argument('--symmetric', action='store_true', help='use a symmetric loss function that backprops to both crops')
 
-# knn monitor
-parser.add_argument('--knn-k', default=200, type=int, help='k in kNN monitor')
-parser.add_argument('--knn-t', default=0.1, type=float, help='softmax temperature in kNN monitor; could be different with moco-t')
-
 # utils
 parser.add_argument('--resume', default='', type=str, metavar='PATH', help='path to latest checkpoint (default: none)')
 parser.add_argument('--results-dir', default='', type=str, metavar='PATH', help='path to cache (default: none)')
@@ -186,7 +182,6 @@ def train_ssl(net, data_loader, train_optimizer, epoch, args):
     return loss_entire
 
 
-# test using a knn monitor
 def linear_training(model,classifier, train_loader, train_optimizer_2, criterion ,epoch, args):
     
     # We dont update the values of the ssl model 
