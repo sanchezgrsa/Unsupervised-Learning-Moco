@@ -122,6 +122,8 @@ parser.add_argument('--bn-splits', default=8, type=int, help='simulate multi-gpu
 
 parser.add_argument('--symmetric', action='store_true', help='use a symmetric loss function that backprops to both crops')
 
+
+
 # utils
 parser.add_argument('--resume', default='', type=str, metavar='PATH', help='path to latest checkpoint (default: none)')
 parser.add_argument('--results-dir', default='', type=str, metavar='PATH', help='path to cache (default: none)')
@@ -177,12 +179,13 @@ def train_ssl(net, data_loader, train_optimizer, epoch, args):
         train_optimizer.step()
         total_num += data_loader.batch_size
         total_loss += loss.item() * data_loader.batch_size
-        train_bar.set_description('Train Epoch: [{}/{}], lr: {:.6f}, Loss: {:.4f}'.format(epoch, args.epochs, train_optimizer.param_groups[0]['lr'], total_loss / total_num))
+        train_bar.set_description('Unsupervised Training Epoch: [{}/{}], lr: {:.6f}, Loss: {:.4f}'.format(epoch, args.epochs, train_optimizer.param_groups[0]['lr'], total_loss / total_num))
 
     return loss_entire
 
 
-def linear_training(model,classifier, train_loader, train_optimizer_2, criterion ,epoch, args):
+# test using a knn monitor
+def linear_training(model,classifier, train_loader, train_optimizer, criterion ,epoch, args):
     
     # We dont update the values of the ssl model 
     loss_entire = []
@@ -215,12 +218,14 @@ def linear_training(model,classifier, train_loader, train_optimizer_2, criterion
             feature = F.normalize(feature, dim=1)
 
 
-        output = classifier(feature, y)
+        output = classifier(feature)
 
         # We create the A1 matrix that is going to multiply the loss
 
         loss = criterion(output, y)
         loss.backward()
+        train_optimizer.step()
+
 
 
         acc1, acc5 = accuracy(output, y, topk=(1, 5))
@@ -239,7 +244,7 @@ def linear_training(model,classifier, train_loader, train_optimizer_2, criterion
                 f'Epoch: [{epoch}][{idx}/{len(train_loader)}]\t'
                 f'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
                 f'Data {data_time.val:.3f} ({data_time.avg:.3f})\t'
-                f'Lr {train_optimizer_2.param_groups[0]["lr"]:.3f} \t'
+                f'Lr {train_optimizer.param_groups[0]["lr"]:.3f} \t'
                 f'Loss {losses.val:.4f} ({losses.avg:.4f})\t'
                 f'Acc@1 {top1.val:.3%} ({top1.avg:.3%})\t'
                 f'Acc@5 {top5.val:.3%} ({top5.avg:.3%})')
@@ -276,7 +281,7 @@ def validate( model, classifier, val_loader, criterion, args):
             feature = s_model(x)
             feature = F.normalize(feature, dim=1)
 
-            output = classifier(feature, y)
+            output = classifier(feature)
     
             loss = criterion(output, y)
 
