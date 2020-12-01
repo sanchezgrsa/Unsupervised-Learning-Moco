@@ -26,5 +26,5 @@ The encoder is calculated following the MoCo implementation. On each iteration i
 
 
 ###### utils
-* resume: 'path to latest checkpoint (default: none)' <br/>
-* results-dir: 'path to cache (default: none)' <br/>
+* resume: 'path to latest checkpoint ' <br/>
+* results-dir: 'path to cache ' <br/>
