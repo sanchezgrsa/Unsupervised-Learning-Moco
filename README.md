@@ -4,7 +4,7 @@ This is an Unofficial implementation of [MoCo](https://arxiv.org/abs/1911.05722)
 
 The encoder is calculated following the MoCo implementation. On each iteration it is fed to a linear neural network for classification purposes. 
 
-######HYPERPARAMETERS
+###### HYPERPARAMETERS
 
 '--lr', '--learning-rate','initial learning rate',
 '--epochs', 'number of total epochs to run'
